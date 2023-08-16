@@ -22,8 +22,8 @@ import javax.persistence.EntityManager;
 @RequiredArgsConstructor
 public class InitDb {
 
-    private final InitService initService;
 
+    private final InitService initService;
     @PostConstruct
     public void init() {
         initService.dbInit1();
@@ -34,11 +34,8 @@ public class InitDb {
     @Transactional
     @RequiredArgsConstructor
     static class InitService {
-
         private final EntityManager em;
-
         public void dbInit1() {
-            System.out.println("Init1" + this.getClass());
             Member member = createMember("userA", "서울", "1", "1111");
             em.persist(member);
 
@@ -74,14 +71,14 @@ public class InitDb {
             em.persist(order);
         }
 
-        private Member createMember(String name, String city, String street, String zipcode) {
+        private static Member createMember(String name, String city, String street, String zipcode) {
             Member member = new Member();
             member.setName(name);
             member.setAddress(new Address(city, street, zipcode));
             return member;
         }
 
-        private Book createBook(String name, int price, int stockQuantity) {
+        private static Book createBook(String name, int price, int stockQuantity) {
             Book book1 = new Book();
             book1.setName(name);
             book1.setPrice(price);
@@ -89,7 +86,7 @@ public class InitDb {
             return book1;
         }
 
-        private Delivery createDelivery(Member member) {
+        private static Delivery createDelivery(Member member) {
             Delivery delivery = new Delivery();
             delivery.setAddress(member.getAddress());
             return delivery;
