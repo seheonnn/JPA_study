@@ -43,6 +43,20 @@ public class OrderApiController {
         return result;
     }
 
+    // v1 과 v2 의 Controller 코드 차이는 없음. repository 에서 fetch join 차이. -> 페이징 처리 불가
+    @GetMapping("/api/v3/orders")
+    public List<OrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithItem();
+//        for (Order order : orders) {
+//            System.out.println("order ref = " + order + "id = " + order.getId());
+//            System.out.println("order = " + order.getId());
+//        }
+        List<OrderDto> result = orders.stream()
+                .map(o -> new OrderDto(o))
+                .collect(Collectors.toList());
+        return result;
+    }
+
 //    @Data
     @Getter
     static class OrderDto {
